@@ -16,8 +16,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all project files
 COPY . .
 
-# Expose port
+# Make startup script executable
+RUN chmod +x start.sh
+
+# Expose port (Railway overrides this with $PORT anyway)
 EXPOSE 8080
 
-# Start the app
-CMD ["sh", "-c", "gunicorn app:app --bind 0.0.0.0:${PORT:-8080} --workers 1 --threads 2 --timeout 120"]
+# Start the app via shell script so $PORT is always expanded
+CMD ["sh", "start.sh"]
