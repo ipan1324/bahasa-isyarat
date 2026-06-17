@@ -1,0 +1,17 @@
+# render.yaml
+# Konfigurasi deployment otomatis ke Render.com (gratis)
+# Dokumentasi: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: signvision-cnn
+    env: python
+    region: singapore  # server terdekat dari Indonesia
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.10.12
